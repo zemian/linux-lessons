@@ -39,3 +39,9 @@ Here are few basic commands to navigate with Dockers
 	WARNING: Do not use `docker start -ia` option to enter shell immediately. Because if you do exit, it will stop the container!. It's bettern to start the container separately, then use `docker exec` to start another terminal shell session.
 * Use `docker rm my-container` to delete the container permanently.
 * Use `docker exec --user nobody -it <container_name> bash` to start a container with another user other than default `root`.
+
+## How to add new user in Ubuntu
+
+Use `adduser <user_name>` to add user, and `deluser <user_name>` to remove it.
+
+Note: Do not use `useradd` command, as that is more lower level command that does not automatically setup home directory etc.
