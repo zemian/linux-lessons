@@ -27,9 +27,7 @@ Here are few basic commands to navigate with Dockers
 
 	It's recommended to use a explicit name if you want to reuse it.
 
-	If you intend to use the container as long term interactive with multiple sesisons, Then we also recommend you to use `--rm=false` option. This will keep the container run running even if you exit the shell and not automatically remove it.
-
-	After you exit (stopped the container), you may re-use the same container with `docker start` (see below) to restart it again. If you do do this, or just use another `docker run`, it will create another new container with different ID, and it will not reuse the same previous interactive container! You may see all containers with `docker ps --all`.
+	After you exit (stopped the container), you may re-use the same container with `docker start` (see below) to restart it again. If you do not do this, or just use another `docker run`, it will create another new container with different ID, and it will not reuse the same previous interactive container! You may see all containers with `docker ps --all`.
 * Use `docker ps` to list current running containers and their names. Use `--all` option to see all, including NOT running containers (ones that has exited).
 * To open another terminal to an existing running container, you would use `docker exec -it <container_name> bash`
 
