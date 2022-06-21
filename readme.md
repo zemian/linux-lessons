@@ -38,8 +38,34 @@ Here are few basic commands to navigate with Dockers
 * Use `docker rm my-container` to delete the container permanently.
 * Use `docker exec --user nobody -it <container_name> bash` to start a container with another user other than default `root`.
 
+## How to install packages in Ubuntu
+
+```
+apt-get update
+apt-get install <package-name>
+```
+
 ## How to add new user in Ubuntu
 
 Use `adduser <user_name>` to add user, and `deluser <user_name>` to remove it.
 
 Note: Do not use `useradd` command, as that is more lower level command that does not automatically setup home directory etc.
+
+## How to mount writable disks in Docker
+
+```
+docker run -it -v /Users/zemian:/MacUsers/zemian --name myubuntu ubuntu
+```
+
+NOTE: That only folders listed under Docker Engine "Resources" > File Sharing are allow to be used above "bind mount" mapping!
+
+We can also add volumns to existing container
+https://stackoverflow.com/questions/28302178/how-can-i-add-a-volume-to-an-existing-docker-container
+
+## How to export running server port to host
+
+The following will map the container port 80 to the host port 8080
+
+```
+docker run -it -p 8080:80 -v /Users/zemian/myhtdocs:/usr/local/apache2/htdocs --name myhttpd httpd
+```
