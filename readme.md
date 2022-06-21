@@ -69,3 +69,32 @@ The following will map the container port 80 to the host port 8080
 ```
 docker run -it -p 8080:80 -v /Users/zemian/myhtdocs:/usr/local/apache2/htdocs --name myhttpd httpd
 ```
+
+## How to run MySQL db with Docker
+
+```
+docker run -it -p 4000:3306 --name mysql -e MYSQL_ROOT_PASSWORD=test123 mysql
+```
+
+Now open another terminal to verify the server
+
+```
+docker exec -it mysql bash
+root> mysql -u root -p
+```
+
+NOTE: You can not connect to host port 4000 with root user. You need to grant remote host access first.
+
+See more on https://hub.docker.com/_/mysql
+
+IMPORTANT: You need to shutdown mysql from docker properly like this:
+
+```
+docker exec mysql /usr/bin/mysqladmin -uroot -ptest123 shutdown
+```
+
+## How to setup PHP/Apache/Mysql package in Docker
+
+See https://www.sitepoint.com/docker-php-development-environment/
+
+
