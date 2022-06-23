@@ -73,13 +73,13 @@ docker run -it -p 8080:80 -v /Users/zemian/myhtdocs:/usr/local/apache2/htdocs --
 ## How to run MySQL db with Docker
 
 ```
-docker run -it -p 4000:3306 --name mysql -e MYSQL_ROOT_PASSWORD=test123 mysql
+docker run -it -p 4000:3306 --name mymysql -e MYSQL_ROOT_PASSWORD=test123 mysql
 ```
 
 Now open another terminal to verify the server
 
 ```
-docker exec -it mysql bash
+docker exec -it mymysql bash
 root> mysql -u root -p
 ```
 
@@ -97,4 +97,60 @@ docker exec mysql /usr/bin/mysqladmin -uroot -ptest123 shutdown
 
 See https://www.sitepoint.com/docker-php-development-environment/
 
+## How to run WordPress applicaiton with Docker
 
+```
+docker run -it --name mywordpress -p 3000:80 wordpress
+```
+
+NOTE: This docker will not provide a database store! You need to connect to a remote DB. You may use above example to setup MySQL with Docker, then try to connect it.
+
+See https://hub.docker.com/_/wordpress
+
+### Create a attachable network to bridge WordPress and MySQL
+
+We can do this separately, or use `--network` option when creating container.
+
+```
+docker network create --attachable mynetwork
+docker network connect mynetwork mymysql
+docker network connect mynetwork mywordpress
+```
+
+## How to use docker-compose to setup WordPress and MySQL together
+
+Create `docker-compose.yml` file:
+
+```
+services:
+  wordpress:
+    container_name: mydocker_mywordpress
+    image: wordpress
+    ports:
+      - "3000:80"
+    links:
+      - mysql
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: "test123"
+      WORDPRESS_DB_NAME: wordpress
+  mysql:
+    container_name: mydocker_mymysql
+    image: mysql
+    volumes:
+      - /Users/zemian/my-docker-volumes/mymysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_ROOT_PASSWORD: "test123"
+```
+
+Open an terminal window to where the file is saved and run:
+
+```
+docker-compose up
+```
+
+NOTE: The docker will destroy the containers when exit! So no data will be saved this way!
+
+See https://medium.com/@habibridho/how-to-easily-setup-wordpress-using-docker-compose-102166c40cfa
