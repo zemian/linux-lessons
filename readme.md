@@ -67,7 +67,7 @@ https://stackoverflow.com/questions/28302178/how-can-i-add-a-volume-to-an-existi
 The following will map the container port 80 to the host port 8080
 
 ```
-docker run -it -p 8080:80 -v /Users/zemian/myhtdocs:/usr/local/apache2/htdocs --name myhttpd httpd
+docker run -it -p 8080:80 -v /Users/zemian/my-docker-volumes/myhtdocs:/usr/local/apache2/htdocs --name myhttpd httpd
 ```
 
 ## How to run MySQL db with Docker
@@ -93,9 +93,29 @@ IMPORTANT: You need to shutdown mysql from docker properly like this:
 docker exec mysql /usr/bin/mysqladmin -uroot -ptest123 shutdown
 ```
 
-## How to setup PHP/Apache/Mysql package in Docker
+## How to setup PHP Docker
 
-See https://www.sitepoint.com/docker-php-development-environment/
+NOTE: We do not want to save the container after use.
+
+Start a PHP interactive shell:
+
+```
+docker run --rm -it php
+```
+
+Start PHP web server on a directory:
+
+```
+docker run --rm -it -p 3000:80 -v /Users/zemian/my-docker-volumes/myphp:/usr/src/myapp php php -S 0.0.0.0:80 -t /usr/src/myapp
+```
+
+Execute a one time PHP script:
+
+```
+docker run --rm -it -v /Users/zemian/my-docker-volumes/myphp:/usr/src/myapp php php /usr/src/myapp/phpinfo.php
+```
+
+See https://hub.docker.com/_/php
 
 ## How to run WordPress applicaiton with Docker
 
